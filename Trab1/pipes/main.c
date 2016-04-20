@@ -7,6 +7,7 @@
 //define
 #define READ 0
 #define WRITE 1
+#define DEFAULT_NUMBERS_GENERATED 10
 
 
 int fd[2];
@@ -74,31 +75,46 @@ int isPrime(int v){
 }
 
 void consume_prod(char* sValue){
-    int prime;
+    char *prime;
     int value;
     value= atoi(sValue);
     if(value==0){
         printf("End - Consume\n");
         exit(0);
     }
-    prime = isPrime(value);
-    printf("\nValue: %d\nPrime Number: %d\n\n",value,prime);
+    switch(isPrime(value)){
+        case 0:
+                prime = "No";
+                break;
+        case 1:
+                prime = "Yes";
+                break;
+    }
+
+    printf("\nValue: %d\nPrime Number: %s\n\n",value,prime);
 
 }
 
 
-int main(){
+int main(int argc, char * argv[]){
 
-pipe(fd); //create pipe
+    long nProducts = DEFAULT_NUMBERS_GENERATED;
 
-int newprocess;
+    if(argc > 1){
+        nProducts = strtol(argv[1],NULL,10);
+    }else{
+        printf("\nExpecting number of products, using default value: %d\n",DEFAULT_NUMBERS_GENERATED);
+    }
+
+    pipe(fd); //create pipe
+    int newprocess;
 
     newprocess = fork();
     if(newprocess==-1){
        printf("Fail to fork");
     }
     else if(newprocess==0){
-       producer(50);
+       producer(nProducts);
        exit(0);
     }else{
        consumer();
