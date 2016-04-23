@@ -1,16 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <netdb.h>
-#include <netinet/in.h>
-
-#define TCP_PROTOCOL 6
+#include "sockUtils.h"
 
 int createSocket(struct sockaddr_in * address, int port_num)
 {
 	int newSocket = socket(AF_INET, SOCK_STREAM, TCP_PROTOCOL);
 	if (newSocket < 0)
 	{
-		perror("ERROR - Failed to create socket\n");
+		perror("ERROR - Failed to Create Socket");
 		exit(EXIT_FAILURE);
 	}
 
@@ -23,7 +18,7 @@ int createSocket(struct sockaddr_in * address, int port_num)
 
 	if (bind(newSocket, address, sizeof(*address)) < 0)
 	{
-		perror("ERROR - Failed to bind");
+		perror("ERROR - Failed to Bind Socket");
 		exit(EXIT_FAILURE);
 	}
 
@@ -33,11 +28,16 @@ int createSocket(struct sockaddr_in * address, int port_num)
 int main()
 {
 	struct sockaddr_in server_addr, client_addr;
-	char buffer[64];
-	int port_num = 5001;
+	char buffer[BUFFER_SIZE];
+	int port_num = PORT_NUM;
 
 	int csocket = createSocket(&server_addr, port_num);
-	listen(csocket, 1);
+
+	if (listen(csocket, 1) < 0)
+	{
+		perror("CONSUMER ERROR - Failed Listen");
+		exit(EXIT_FAILURE);
+	}
 
 	int size_buffer = sizeof(client_addr);
 
@@ -48,9 +48,9 @@ int main()
 		exit(EXIT_FAILURE);
 	}
 
-	bzero(buffer, 64);
+	bzero(buffer, BUFFER_SIZE);
 
-	if (read(file_descriptor, buffer, 63) < 0)
+	if (read(file_descriptor, buffer, BUFFER_SIZE -1) < 0) // certeza q eh BUFFER_SIZE - 1???
 	{
 		perror("ERROR - Failed to read from socket\n");
 		exit(EXIT_FAILURE);

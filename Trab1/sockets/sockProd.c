@@ -1,16 +1,23 @@
-#include <sys/socket.h>
+/*#include <sys/socket.h>
 #include <sys/types.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <stdio.h>
+//#include <netinet/in.h>
+//#include <netdb.h>*/
+#include "sockUtils.h"
 
 int main(){
-	int mysocket;
-	mysocket = socket(AF_INET,SOCK_STREAM,6);
-	if(mysocket == -1){
-		printf("Fail to create\n");
+
+	unsigned long randomNum = 0;
+
+	// Conecta ao socket
+	if (connect())
+	{
+		perror("ERROR - Failed to Connect");
+		exit(EXIT_FAILURE);
 	}
-	printf("%d\n",mysocket);
+
+	// gera um numero
+	// aguarda resposta
+	// imprime
 
 	return 0;
 }
