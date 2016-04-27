@@ -13,6 +13,12 @@
 #define BUFFER_SIZE 32
 #define FAILED 1
 
+//colors
+#define RED "\x1b[31m"
+#define GREEN "\x1b[32m"
+#define RESET "\x1b[0m"
+
+
 // Control Definitions (don't change)
 #define TCP_PROTOCOL 6
 #define SERVER_ADDR "127.0.0.1"

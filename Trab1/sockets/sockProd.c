@@ -4,10 +4,10 @@
 //#include <netdb.h>*/
 #include "sockUtils.h"
 int createSocket(struct sockaddr_in * address, int port_num){
-    int socket;
-    socket = socket(AF_INET,SOCK_STREAM,TCP_PROTOCOL);
+    int sock;
+    sock = socket(AF_INET,SOCK_STREAM,TCP_PROTOCOL);
 
-    if(conn == -1){
+    if(sock == -1){
         printf("Couldn't create socket");
     }
     puts("Socket created");
@@ -16,7 +16,7 @@ int createSocket(struct sockaddr_in * address, int port_num){
     address->sin_family = AF_INET;
     address->sin_port = htons(port_num);
 
-    return socket;
+    return sock;
 }
 
 int main(){
@@ -24,6 +24,7 @@ int main(){
     srand(time(NULL));
 	char randomNum[BUFFER_SIZE];
     int conn;
+    char *color;
     unsigned int number = 0;
     char reply[BUFFER_SIZE];
     struct sockaddr_in server_addr;
@@ -48,19 +49,19 @@ int main(){
             close(conn);
             exit(FAILED);
         }
-//        if(recv(conn,reply,BUFFER_SIZE,0)<0){
-//            puts("Read failed");
-//            close(conn);
-//            exit(FAILED);
-//        }
+
         printf("Number: %s\n",randomNum);
         if(recv(conn,reply,BUFFER_SIZE,0)<0){
             puts("Read failed");
-            send(conn,)
             close(conn);
             exit(FAILED);
         }
-        printf("Prime? %s\n\n",reply);
+        if(reply[0]=='N')
+            color = RED;
+        else if(reply[0]=='Y')
+            color = GREEN;
+
+        printf("Prime? %s%s\n\n" RESET,color,reply);
         sleep(1);
 
 	}

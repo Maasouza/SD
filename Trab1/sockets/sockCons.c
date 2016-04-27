@@ -98,10 +98,6 @@ int main()
                 break;
     }
 
-//        puts("enviando 1");
-//		send(file_descriptor , buffer , sizeof(msg),0);
-//		puts("enviando 2");
-//		sleep(1);
 		send(file_descriptor , prime , sizeof(msg),0);
 
 		if(value==0){
