@@ -8,6 +8,7 @@ int createSocket(struct sockaddr_in * address, int port_num)
 		perror("ERROR - Failed to Create Socket");
 		exit(EXIT_FAILURE);
 	}
+	puts("Socket created");
 
 	// NECESSÁRIO?
 	bzero((char *) address, sizeof(*address));
@@ -16,7 +17,7 @@ int createSocket(struct sockaddr_in * address, int port_num)
 	address->sin_addr.s_addr = INADDR_ANY;
 	address->sin_port = htons(port_num);
 
-	if (bind(newSocket, address, sizeof(*address)) < 0)
+	if (bind(newSocket,address, sizeof(*address)) < 0)
 	{
 		perror("ERROR - Failed to Bind Socket");
 		exit(EXIT_FAILURE);
@@ -25,14 +26,30 @@ int createSocket(struct sockaddr_in * address, int port_num)
 	return newSocket;
 }
 
+int isPrime(int v){
+    int i;
+    for(i=2;i<v;i++){
+        if(v%i==0){
+            return 0;
+        }
+    }
+    return 1;
+}
+
 int main()
 {
 	struct sockaddr_in server_addr, client_addr;
 	char buffer[BUFFER_SIZE];
 	int port_num = PORT_NUM;
+	int reading;
+	int value;
+	char *msg;
+	char *prime;
+
 
 	int csocket = createSocket(&server_addr, port_num);
 
+	puts("Waiting connection...\n");
 	if (listen(csocket, 1) < 0)
 	{
 		perror("CONSUMER ERROR - Failed Listen");
@@ -41,24 +58,59 @@ int main()
 
 	int size_buffer = sizeof(client_addr);
 
-	int file_descriptor = accept(csocket, (struct sockaddr *) &client_addr, &size_buffer);
+	int file_descriptor = accept(csocket, (struct sockaddr *) &client_addr, (socklen_t * ) &size_buffer);
 	if (file_descriptor < 0)
 	{
 		perror("ERROR - Failed to accept connection");
 		exit(EXIT_FAILURE);
 	}
+	puts("connection accept\n");
 
 	bzero(buffer, BUFFER_SIZE);
 
-	if (read(file_descriptor, buffer, BUFFER_SIZE -1) < 0) // certeza q eh BUFFER_SIZE - 1???
-	{
-		perror("ERROR - Failed to read from socket\n");
-		exit(EXIT_FAILURE);
+	while (1) {
+		if ((reading = recv(file_descriptor, buffer, BUFFER_SIZE,0)) < 0) // certeza q eh BUFFER_SIZE - 1???
+		{
+			perror("ERROR - Failed to read from socket\n");
+			exit(EXIT_FAILURE);
+	  }
+		if(reading == 0)
+	  {
+	    puts("Client disconnected\n");
+	    fflush(stdout);
+	    exit(0);
+	  }
+
+		//botar o protocolo Protocolo
+
+    value = atoi(buffer);
+    if(value==0){
+        printf("End - Consume\n");
+        exit(0);
+    }
+
+    switch(isPrime(value)){
+        case 0:
+                prime = "No";
+                break;
+        case 1:
+                prime = "Yes";
+                break;
+    }
+
+//        puts("enviando 1");
+//		send(file_descriptor , buffer , sizeof(msg),0);
+//		puts("enviando 2");
+//		sleep(1);
+		send(file_descriptor , prime , sizeof(msg),0);
+
+		if(value==0){
+
+			printf("Zero received!\n");
+		}
+
 	}
 
-	// FALTA CHECAR SE NUMERO É PRIMO
-
-	printf("Mensagem: %s", buffer);
 
 
     return 0;
