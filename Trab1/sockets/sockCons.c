@@ -1,5 +1,6 @@
 #include "sockUtils.h"
 
+
 int createSocket(struct sockaddr_in * address, int port_num)
 {
 	int newSocket = socket(AF_INET, SOCK_STREAM, TCP_PROTOCOL);
@@ -36,8 +37,7 @@ int isPrime(int v){
     return 1;
 }
 
-int main()
-{
+int main(int argc , char *argv[]){
 	struct sockaddr_in server_addr, client_addr;
 	char buffer[BUFFER_SIZE];
 	int port_num = PORT_NUM;
@@ -46,8 +46,21 @@ int main()
 	char *msg;
 	char *prime;
 
+	if(argc >1){
+
+        port_num = atoi(argv[1]);
+        printf("Using port and ip: %d \n",port_num);    
+
+    }else{
+
+        printf("Using default port : %d \n",port_num);
+
+    }
+
 
 	int csocket = createSocket(&server_addr, port_num);
+
+
 
 	puts("Waiting connection...\n");
 	if (listen(csocket, 1) < 0)

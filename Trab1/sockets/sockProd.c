@@ -3,6 +3,11 @@
 //#include <netinet/in.h>
 //#include <netdb.h>*/
 #include "sockUtils.h"
+
+int port_num = PORT_NUM;
+char * ip_addr;
+
+
 int createSocket(struct sockaddr_in * address, int port_num){
     int sock;
     sock = socket(AF_INET,SOCK_STREAM,TCP_PROTOCOL);
@@ -12,24 +17,36 @@ int createSocket(struct sockaddr_in * address, int port_num){
     }
     puts("Socket created");
 
-    address->sin_addr.s_addr = inet_addr(SERVER_ADDR);
+    address->sin_addr.s_addr = inet_addr(ip_addr);
     address->sin_family = AF_INET;
     address->sin_port = htons(port_num);
 
     return sock;
 }
 
-int main(){
-
+int main(int argc , char *argv[]){
     srand(time(NULL));
-	char randomNum[BUFFER_SIZE];
+    char randomNum[BUFFER_SIZE];
     int conn;
     char *color;
     unsigned int number = 0;
     char reply[BUFFER_SIZE];
     struct sockaddr_in server_addr;
 
-    conn = createSocket(&server_addr, PORT_NUM);
+    if(argc == 3){
+
+        ip_addr = argv[1];
+        port_num = atoi(argv[2]);        
+
+    }else{
+        ip_addr = DEFAULT_IP_ADDR;
+        printf("Using default port and ip addres: %d ; %s \n",port_num,DEFAULT_IP_ADDR);
+
+    }
+
+   
+
+    conn = createSocket(&server_addr, port_num);
 
     // Conecta ao socket
 	if(connect(conn,(struct sockaddr * )&server_addr,sizeof(server_addr))<0)
@@ -62,6 +79,7 @@ int main(){
             color = GREEN;
 
         printf("Prime? %s%s\n\n" RESET,color,reply);
+        fflush(stdout);
         sleep(1);
 
 	}

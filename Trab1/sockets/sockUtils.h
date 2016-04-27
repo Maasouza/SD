@@ -21,4 +21,5 @@
 
 // Control Definitions (don't change)
 #define TCP_PROTOCOL 6
-#define SERVER_ADDR "127.0.0.1"
+#define DEFAULT_IP_ADDR "127.0.0.1"
+
