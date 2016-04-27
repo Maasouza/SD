@@ -5,6 +5,7 @@
 #include <sys/types.h>
 
 #define COLOR_CYAN    "\x1b[36m"
+#define COLOR_YELLOW  "\x1b[33m"
 #define COLOR_RESET   "\x1b[0m"
 
 #define EXIT_SIG 10
@@ -16,7 +17,7 @@
 void exit_sig_handler(int sig)
 {
 	signal(EXIT_SIG, exit_sig_handler);
-    printf("Received signal %d. Closing application...\n", sig);
+    printf(COLOR_YELLOW "Sem você tá um caos...\n" COLOR_RESET "--Pixote\n\n");
     fflush(stdout);
     exit(EXIT_SUCCESS);
 }
@@ -24,21 +25,21 @@ void exit_sig_handler(int sig)
 void sig1_handler(int sig)
 {
 	signal(SIG1, sig1_handler);
-    printf("received SIG1 : %d\n", sig);
+    printf( COLOR_YELLOW "Da um alô dá uma chance pro amor\nPois eu não tô legal\n" COLOR_RESET "Mande um sinal\n");
     fflush(stdout);
 }
 
 void sig2_handler(int sig)
 {
 	signal(SIG2, sig2_handler);
-    printf("received SIG2 : %d\n", sig);
+    printf(COLOR_YELLOW "Se a saudade aumentar vai ser golpe fatal\n" COLOR_RESET "Mande um sinal\n");
     fflush(stdout);
 }
 
 void sig3_handler(int sig)
 {
 	signal(SIG3, sig3_handler);
-    printf("received SIG3 : %d\n", sig);
+    printf(COLOR_YELLOW "Eu preciso dizer que a minha vida parou sem você\nTá um caos\n" COLOR_RESET "Mande um sinal\n");
     fflush(stdout);
 }
 
@@ -46,6 +47,7 @@ void sig3_handler(int sig)
 int main(int argc, char * argv[])
 {
 	printf(COLOR_CYAN "PID = %d\n" COLOR_RESET, getpid());
+	printf("Mande um sinal\n");
 
 	signal(EXIT_SIG, exit_sig_handler);
 	signal(SIG1, sig1_handler);
