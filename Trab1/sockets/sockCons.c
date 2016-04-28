@@ -11,7 +11,6 @@ int createSocket(struct sockaddr_in * address, int port_num)
 	}
 	puts("Socket created");
 
-	// NECESSÁRIO?
 	bzero((char *) address, sizeof(*address));
 
 	address->sin_family = AF_INET;
@@ -57,10 +56,7 @@ int main(int argc , char *argv[]){
 
     }
 
-
 	int csocket = createSocket(&server_addr, port_num);
-
-
 
 	puts("Waiting connection...\n");
 	if (listen(csocket, 1) < 0)
@@ -93,8 +89,6 @@ int main(int argc , char *argv[]){
 	    fflush(stdout);
 	    exit(0);
 	  }
-
-		//botar o protocolo Protocolo
 
     value = atoi(buffer);
     if(value==0){
