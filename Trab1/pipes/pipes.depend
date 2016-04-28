@@ -1,7 +1,0 @@
-# depslib dependency file v1.0
-1461161032 source:/home/marcos/sd/pipes/pipes/main.c
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<unistd.h>
-
