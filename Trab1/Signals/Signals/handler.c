@@ -13,6 +13,9 @@
 #define SIG2 12
 #define SIG3 13
 
+#define _TRUE_ 1
+#define _FALSE_ 0
+
 
 void exit_sig_handler(int sig)
 {
@@ -46,8 +49,9 @@ void sig3_handler(int sig)
 
 int main(int argc, char * argv[])
 {
+	unsigned char busy_wait = _FALSE_;
+
 	printf(COLOR_CYAN "PID = %d\n" COLOR_RESET, getpid());
-	printf("Mande um sinal\n");
 
 	signal(EXIT_SIG, exit_sig_handler);
 	signal(SIG1, sig1_handler);
@@ -59,7 +63,7 @@ int main(int argc, char * argv[])
 		if ((argv[1][0] == '-') && (argv[1][1] == 'b') && (argv[1][2] == 'w') && (argv[1][3] == '\0'))
 		{
 			printf("USING BUSY WAIT\n");
-			while(1);
+			busy_wait = _TRUE_;
 		}
 		else
 		{
@@ -67,10 +71,19 @@ int main(int argc, char * argv[])
 			exit(EXIT_FAILURE);
 		}
 	} 
+
+	printf("Mande um sinal\n");
 	
-	while(1)
+	if (busy_wait)
 	{
-		pause();
+		while(1);
+	}
+	else
+	{
+		while(1)
+		{
+			pause();
+		}
 	}
 		
 	return 0;
