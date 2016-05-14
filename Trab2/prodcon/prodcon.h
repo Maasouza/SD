@@ -69,7 +69,7 @@ void* cons(){
 		}		
 		pthread_mutex_unlock(&mutex_memory);
 		sem_post(&empty);
-		printf("id: %d consumer: %ld\tisPrime: %d\n",countC,value, isPrime(value));
+		printf("consumer: %ld\tisPrime: %d\n",value, isPrime(value));
 	}
 }
 /*---------------------------------------------------|
