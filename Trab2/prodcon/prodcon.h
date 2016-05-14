@@ -10,8 +10,8 @@
 #define NC 1 //# of consumer 
 #define NP 1 //# of producer 
 #define MEMORY_SIZE 10
-#define MAX_CONSUME 10E4
-#define MAX_VAL 10E7
+#define MAX_CONSUME 10000
+#define MAX_VAL 10000000
 #define BUFFER_SIZE 32
 #define TRUE 1
 #define FALSE 0
@@ -24,8 +24,6 @@ int mSize,i,time_index;
 int memory_index=0;
 long int sMemory[BUFFER_SIZE];
 
-int countC = 0;
-int countP = 0;
 
 int isPrime(long value)
 {
@@ -45,7 +43,7 @@ int isPrime(long value)
 
 void* prod(){
 	long int value;
-	while(countP<MAX_CONSUME){
+	while(1){
 		value = rand()+1;
 		sem_wait(&empty);
 		pthread_mutex_lock(&mutex_memory);
@@ -53,7 +51,6 @@ void* prod(){
 			sMemory[memory_index]=value;
 			memory_index += 1;
 		}		
-		countP+=1;
 		pthread_mutex_unlock(&mutex_memory);
 		sem_post(&full);
 		printf("producer %ld\n",value);
@@ -62,7 +59,7 @@ void* prod(){
 
 void* cons(){
 	long int value;
-	while(countC<MAX_CONSUME){		
+	while(1){		
 		sem_wait(&full);
 		pthread_mutex_lock(&mutex_memory);
 		
@@ -70,7 +67,6 @@ void* cons(){
 			memory_index -= 1;
 			value=sMemory[memory_index];
 		}		
-		countC+=1;
 		pthread_mutex_unlock(&mutex_memory);
 		sem_post(&empty);
 		printf("id: %d consumer: %ld\tisPrime: %d\n",countC,value, isPrime(value));
