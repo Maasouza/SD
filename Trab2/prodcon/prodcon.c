@@ -7,6 +7,7 @@ int main( int argc, const char* argv[] ){
 	/*----------------------|
 	| arg[1] # of producer  |
 	| arg[2] # of consumer  |
+	
 	-----------------------*/
 	srand(time(NULL));
 
