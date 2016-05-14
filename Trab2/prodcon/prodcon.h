@@ -12,7 +12,7 @@
 #define MEMORY_SIZE 10
 #define MAX_CONSUME 10000
 #define MAX_VAL 10000000
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 32
 #define TRUE 1
 #define FALSE 0
 
@@ -24,10 +24,26 @@ int mSize,i,time_index;
 int memory_index=0;
 long int sMemory[BUFFER_SIZE];
 
+int isPrime(long value)
+{
+	unsigned int value_sqrt = (int)sqrt(value), itt;
+	
+	if(!(value & 0x1)){ // ---> if ![value % 2 == 0]
+		for (itt = 3; itt < value_sqrt; itt += 2)
+		{
+			if(value % itt == 0)
+			{
+				return 0; // not prime
+			}
+		}
+	}
+	return 1; // is prime
+}
+
 void* prod(){
 	long int value;
 	while(1){
-		value = (rand()%10000000)+1;
+		value = rand()+1;
 		sem_wait(&empty);
 		pthread_mutex_lock(&mutex_memory);
 		if (memory_index < BUFFER_SIZE){
@@ -45,14 +61,15 @@ void* cons(){
 	long int value;
 	while(1){		
 		sem_wait(&full);
-		pthread_mutex_unlock(&mutex_memory);
+		pthread_mutex_lock(&mutex_memory);
 		if(memory_index < 0){
 			memory_index -= 1;
 			value=sMemory[memory_index];
 		}		
 		pthread_mutex_unlock(&mutex_memory);
 		sem_post(&empty);
-		printf("consumer %ld\n",value );
+
+		printf("consumer: %ld\tisPrime: %d\n",value, isPrime(value));
 	}
 }
 /*---------------------------------------------------|
