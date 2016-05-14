@@ -20,12 +20,12 @@
 sem_t full,empty;
 pthread_mutex_t mutex_memory;
 
-int mSize,i,time_index,countP,countC;
+int mSize,i,time_index;
 int memory_index=0;
 long int sMemory[BUFFER_SIZE];
 
-countC = 0;
-countP = 0;
+int countC = 0;
+int countP = 0;
 
 int isPrime(long value)
 {
