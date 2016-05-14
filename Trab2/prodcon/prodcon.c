@@ -26,7 +26,7 @@ int main( int argc, const char* argv[] ){
 	
 	}
 
-	sMemory = malloc(mSize*sizeof(long int));
+	//sMemory = malloc(mSize*sizeof(long int));
 
 	for(i = 0; i < mSize ; i++){
 		sMemory[i]=0;
@@ -43,12 +43,12 @@ int main( int argc, const char* argv[] ){
 		pthread_create(&p_Threads[i],NULL,prod,NULL);
 	}
 
-	for(i = 0;i < nProd ; i++){
-		pthread_join(p_Threads[i],NULL);
-	}
-
 	for(i = 0; i < nCons ; i++){
 		pthread_create(&c_Threads[i],NULL,cons,NULL);
+	}
+
+	for(i = 0;i < nProd ; i++){
+		pthread_join(p_Threads[i],NULL);
 	}
 
 	for(i = 0; i < nCons ; i++){
