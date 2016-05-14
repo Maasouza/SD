@@ -3,7 +3,6 @@
 
 
 int main( int argc, const char* argv[] ){
-	int nProd,nCons;
 	/*----------------------|
 	| arg[1] # of producer  |
 	| arg[2] # of consumer  |
@@ -24,17 +23,16 @@ int main( int argc, const char* argv[] ){
 	
 	}
 
-	for(i = 0; i < mSize ; i++){
+	for(i = 0; i < BUFFER_SIZE ; i++){
 		sMemory[i]=0;
 	}
 
 	pthread_t p_Threads[nProd];
 	pthread_t c_Threads[nProd];
 	
-	sem_init(&full,0,mSize);
+	sem_init(&full,0,BUFFER_SIZE);
 	sem_init(&empty,0,0);
 	pthread_mutex_init(&mutex_memory,NULL);
-
 	for(i = 0;i<nProd;i++){
 		pthread_create(&p_Threads[i],NULL,prod,NULL);
 	}
