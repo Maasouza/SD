@@ -7,26 +7,21 @@ int main( int argc, const char* argv[] ){
 	/*----------------------|
 	| arg[1] # of producer  |
 	| arg[2] # of consumer  |
-	| arg[3] Memory size    |
 	-----------------------*/
 	srand(time(NULL));
 
-	if(argc == 4){
+	if(argc == 3){
 
 		nProd = atoi(argv[1]);
 		nCons = atoi(argv[2]);
-		mSize = atoi(argv[3]);
 	
 	}else{
 	
 		nProd = NP;
 		nCons = NC;
-		mSize = MEMORY_SIZE;
 		printf("Missing parameters! Using default values\n");
 	
 	}
-
-	//sMemory = malloc(mSize*sizeof(long int));
 
 	for(i = 0; i < mSize ; i++){
 		sMemory[i]=0;
