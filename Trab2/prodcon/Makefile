@@ -1,7 +1,7 @@
 CC = gcc
 SOURCE = prodcon.c
 EXEC_NAME = pc
-CFLAGS = -lm -pthread
+CFLAGS = -lm -pthread -O3
 C_DEBUG_FLAGS = -D DEBUG -Wall
 
 default:

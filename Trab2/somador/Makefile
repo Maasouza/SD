@@ -1,7 +1,7 @@
 CC = gcc
 SOURCE = somador.c
 EXEC_NAME = sum
-CFLAGS = -lm -pthread
+CFLAGS = -lm -pthread -O3
 C_DEBUG_FLAGS = -D DEBUG -Wall
 
 default:
