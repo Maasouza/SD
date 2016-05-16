@@ -51,6 +51,5 @@ int main(int argc, char * argv[])
 	printf("Sum Result:\t%ld\nCorrect Answer:\t%ld\n", accumulator, correct_answer);
 	
 	pthread_exit(NULL);
-
 	return 0;
 }

@@ -9,13 +9,9 @@
 
 #define NC 1 //# of consumer 
 #define NP 1 //# of producer 
-#define MEMORY_SIZE 10
+
 #define MAX_CONSUME 10000
-<<<<<<< HEAD
-#define MAX_VAL 10E7
-=======
 #define MAX_VAL 10000000
->>>>>>> d5ba201cc81642ec4b194bd7f618784212a50c06
 #define BUFFER_SIZE 32
 #define TRUE 1
 #define FALSE 0
@@ -24,7 +20,7 @@
 sem_t full,empty;
 pthread_mutex_t mutex_memory;
 
-int i,time_index;
+int time_index;
 int nProd,nCons;
 int memory_index=0;
 
@@ -104,6 +100,6 @@ void* cons(){
 /*---------------------------------------------------|
 |                                                    |
 | (Np,Nc) ={(1,1),(2,2),(5,5),(10,10),(2,10),(10,2)} |
-| MEMORY_SIZE = {2,4,8,16,32}                        |
+| BUFFER_SIZE = {2,4,8,16,32}                        |
 |                                                    |
 |---------------------------------------------------*/ 

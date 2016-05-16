@@ -3,13 +3,15 @@
 
 
 int main( int argc, const char* argv[] ){
-	/*----------------------|
-	| arg[1] # of producer  |
-	| arg[2] # of consumer  |
-	
-	-----------------------*/
+	/*-----------------------|
+	| arg[1] # of producers  |
+	| arg[2] # of consumers  |
+	|-----------------------*/
+	int itt;
+
 	srand(time(NULL));
 
+	// read parameters
 	if(argc == 3){
 
 		nProd = atoi(argv[1]);
@@ -23,20 +25,24 @@ int main( int argc, const char* argv[] ){
 	
 	}
 
-	for(i = 0; i < BUFFER_SIZE ; i++){
+	// empty buffer
+	for(itt = 0; itt < BUFFER_SIZE ; itt++){
 		sMemory[i]=0;
 	}
 
 	pthread_t p_Threads[nProd];
-	pthread_t c_Threads[nProd];
+	pthread_t c_Threads[nCons];
 	
 	sem_init(&full,0,BUFFER_SIZE);
 	sem_init(&empty,0,0);
 	pthread_mutex_init(&mutex_memory,NULL);
+
+	// create producers
 	for(i = 0;i<nProd;i++){
 		pthread_create(&p_Threads[i],NULL,prod,NULL);
 	}
 
+	// create consumers
 	for(i = 0; i < nCons ; i++){
 		pthread_create(&c_Threads[i],NULL,cons,NULL);
 	}
@@ -53,4 +59,6 @@ int main( int argc, const char* argv[] ){
 	sem_destroy(&empty);
 	pthread_mutex_destroy(&mutex_memory);
 
+	pthread_exit(NULL);
+	return 0;
 }
