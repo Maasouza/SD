@@ -7,7 +7,7 @@ int main( int argc, const char* argv[] ){
 	| arg[1] # of producers  |
 	| arg[2] # of consumers  |
 	|-----------------------*/
-	int itt;
+	int itt,i;
 
 	srand(time(NULL));
 
@@ -36,29 +36,31 @@ int main( int argc, const char* argv[] ){
 	sem_init(&empty,0,BUFFER_SIZE);
 	sem_init(&full,0,0);
 	pthread_mutex_init(&mutex_memory,NULL);
+	
+	for(i = 0; i < N_TIMES ; i++){
+		// create producers
+		for(itt = 0;itt<nProd;itt++){
+			pthread_create(&p_Threads[itt],NULL,prod,NULL);
+		}
 
-	// create producers
-	for(itt = 0;itt<nProd;itt++){
-		pthread_create(&p_Threads[itt],NULL,prod,NULL);
+		// create consumers
+		for(itt = 0; itt < nCons ; itt++){
+			pthread_create(&c_Threads[itt],NULL,cons,NULL);
+		}
+
+		for(itt = 0;itt < nProd ; itt++){
+			pthread_join(p_Threads[itt],NULL);
+		}
+
+		for(itt = 0; itt < nCons ; itt++){
+			pthread_join(c_Threads[itt],NULL);
+		}
 	}
 
-	// create consumers
-	for(itt = 0; itt < nCons ; itt++){
-		pthread_create(&c_Threads[itt],NULL,cons,NULL);
-	}
-
-	for(itt = 0;itt < nProd ; itt++){
-		pthread_join(p_Threads[itt],NULL);
-	}
-
-	for(itt = 0; itt < nCons ; itt++){
-		pthread_join(c_Threads[itt],NULL);
-	}
 
 	sem_destroy(&full);
 	sem_destroy(&empty);
 	pthread_mutex_destroy(&mutex_memory);
-
 	pthread_exit(NULL);
 	return 0;
 }

@@ -14,7 +14,7 @@
 #define BUFFER_SIZE 32
 #define TRUE 1
 #define FALSE 0
-
+#define N_TIMES 10
 
 sem_t full,empty;
 pthread_mutex_t mutex_memory;
@@ -70,7 +70,7 @@ void* cons(){
 			value=sMemory[memory_index];
 			sMemory[memory_index]=0;
 			i+=1;
-			printf("consumer %d: %ld\tisPrime: %d\tmem_index: %d\n",i,value, isPrime(value), memory_index);
+			//printf("consumer %d: %ld\tisPrime: %d\tmem_index: %d\n",i,value, isPrime(value), memory_index);
 		}		
 		pthread_mutex_unlock(&mutex_memory);
 		sem_post(&empty);
