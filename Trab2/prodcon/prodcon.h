@@ -10,7 +10,7 @@
 #define NC 1 //# of consumer 
 #define NP 1 //# of producer 
 
-#define MAX_CONSUME 10//10000
+#define MAX_CONSUME 10000//10000
 #define MAX_VAL 10000000
 #define BUFFER_SIZE 32
 #define TRUE 1
@@ -52,7 +52,7 @@ void* prod(){
 		sem_wait(&empty);
 		pthread_mutex_lock(&mutex_memory);
 		if (memory_index < BUFFER_SIZE){ // && sMemory[memory_index]==0){
-			printf("value = %d\n", value);
+			printf("producer - value = %d\tmem_index = %d\n", value, memory_index);
 
 			sMemory[memory_index]=value;
 			memory_index += 1;
