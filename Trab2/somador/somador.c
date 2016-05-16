@@ -20,14 +20,16 @@ int main(int argc, char * argv[])
 
 	//populate elements array
 	printf("Populating array...\n");
+	time_start = clock();
 	for (itt = 0; itt < QTT_ELEMENTS; itt++)
 	{
-		elements[itt] = (char)(rand() % 200) - 100;
+		elements[itt] = (char)((mrand48() % 200) - 100);
 		correct_answer += elements[itt];
 	}
-	printf("Array populated\n\n");
-
-	time_start = clock();
+	time_end = clock();
+	time_elapsed = (double)(time_end - time_start)/CLOCKS_PER_SEC;
+	printf("Array populated in %fs\n\n", time_elapsed);
+	
 	//create threads
 	for(itt = 0; itt < qtt_threads; itt++)
 	{	
@@ -45,12 +47,9 @@ int main(int argc, char * argv[])
 	{
 		pthread_join(tid[itt], NULL);
 	}
-	time_end = clock();
-	time_elapsed = (double)(time_end - time_start)/CLOCKS_PER_SEC;
-
+	
 	printf("Sum Result:\t%ld\nCorrect Answer:\t%ld\n", accumulator, correct_answer);
-	printf("Elapsed time: %fs\n", time_elapsed);
-
+	
 	pthread_exit(NULL);
 
 	return 0;

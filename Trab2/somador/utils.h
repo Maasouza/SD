@@ -11,17 +11,22 @@
 
 char elements[QTT_ELEMENTS];
 long accumulator = 0;
-int lock = 1;
+char lock = 0;
+
+int test_and_set(char * lock){
+	char prev_lock = *lock;
+	*lock = 1;
+	return prev_lock;
+}
 
 void acquire()
 {
-	while(lock==0);
-	lock = 0;
+	while(test_and_set(&lock));
 }
 
 void release()
 {
-	lock = 1;
+	lock = 0;
 }
 
 struct thread_arguments
