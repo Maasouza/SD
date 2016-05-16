@@ -4,13 +4,13 @@
 #include <time.h>
 #include <semaphore.h>
 #include <pthread.h>
-#include <assert.h>
+//#include <assert.h>
 
 
 #define NC 1 //# of consumer 
 #define NP 1 //# of producer 
 
-#define MAX_CONSUME 10000
+#define MAX_CONSUME 10//10000
 #define MAX_VAL 10000000
 #define BUFFER_SIZE 32
 #define TRUE 1
@@ -20,7 +20,7 @@
 sem_t full,empty;
 pthread_mutex_t mutex_memory;
 
-int time_index;
+//int time_index;
 int nProd,nCons;
 int memory_index=0;
 
@@ -45,28 +45,18 @@ int isPrime(long value){
 }
 
 void* prod(){
-<<<<<<< HEAD
 	long int value=1;
 	int i = 0;
 	while(i < MAX_CONSUME/nProd){
 		//value = rand()+1;
 		value+=1;
-=======
-	long int value;
-	while(1){
-		value = rand()+1;
->>>>>>> d5ba201cc81642ec4b194bd7f618784212a50c06
 		sem_wait(&empty);
 		pthread_mutex_lock(&mutex_memory);
 		if (memory_index < BUFFER_SIZE && sMemory[memory_index]==0){
 			sMemory[memory_index]=value;
 			memory_index += 1;
-<<<<<<< HEAD
 			i+=1;
 		}			
-=======
-		}		
->>>>>>> d5ba201cc81642ec4b194bd7f618784212a50c06
 		pthread_mutex_unlock(&mutex_memory);
 		sem_post(&full);
 	}
@@ -74,12 +64,8 @@ void* prod(){
 
 void* cons(){
 	long int value;
-<<<<<<< HEAD
 	int i = 0;
 	while(i < MAX_CONSUME/nCons){		
-=======
-	while(1){		
->>>>>>> d5ba201cc81642ec4b194bd7f618784212a50c06
 		sem_wait(&full);
 		pthread_mutex_lock(&mutex_memory);
 		if(memory_index >= 0 && sMemory[memory_index]!=0){
@@ -91,10 +77,8 @@ void* cons(){
 		}		
 		pthread_mutex_unlock(&mutex_memory);
 		sem_post(&empty);
-<<<<<<< HEAD
-=======
-		printf("consumer: %ld\tisPrime: %d\n",value, isPrime(value));
->>>>>>> d5ba201cc81642ec4b194bd7f618784212a50c06
+
+		//printf("consumer: %ld\tisPrime: %d\n",value, isPrime(value));
 	}
 }
 /*---------------------------------------------------|

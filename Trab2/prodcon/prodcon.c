@@ -27,7 +27,7 @@ int main( int argc, const char* argv[] ){
 
 	// empty buffer
 	for(itt = 0; itt < BUFFER_SIZE ; itt++){
-		sMemory[i]=0;
+		sMemory[itt]=0;
 	}
 
 	pthread_t p_Threads[nProd];
@@ -38,21 +38,21 @@ int main( int argc, const char* argv[] ){
 	pthread_mutex_init(&mutex_memory,NULL);
 
 	// create producers
-	for(i = 0;i<nProd;i++){
-		pthread_create(&p_Threads[i],NULL,prod,NULL);
+	for(itt = 0;itt<nProd;itt++){
+		pthread_create(&p_Threads[itt],NULL,prod,NULL);
 	}
 
 	// create consumers
-	for(i = 0; i < nCons ; i++){
-		pthread_create(&c_Threads[i],NULL,cons,NULL);
+	for(itt = 0; itt < nCons ; itt++){
+		pthread_create(&c_Threads[itt],NULL,cons,NULL);
 	}
 
-	for(i = 0;i < nProd ; i++){
-		pthread_join(p_Threads[i],NULL);
+	for(itt = 0;itt < nProd ; itt++){
+		pthread_join(p_Threads[itt],NULL);
 	}
 
-	for(i = 0; i < nCons ; i++){
-		pthread_join(c_Threads[i],NULL);
+	for(itt = 0; itt < nCons ; itt++){
+		pthread_join(c_Threads[itt],NULL);
 	}
 
 	sem_destroy(&full);
