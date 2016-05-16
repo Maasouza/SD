@@ -33,8 +33,8 @@ int main( int argc, const char* argv[] ){
 	pthread_t p_Threads[nProd];
 	pthread_t c_Threads[nCons];
 	
-	sem_init(&full,0,BUFFER_SIZE);
-	sem_init(&empty,0,0);
+	sem_init(&empty,0,BUFFER_SIZE);
+	sem_init(&full,0,0);
 	pthread_mutex_init(&mutex_memory,NULL);
 
 	// create producers

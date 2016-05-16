@@ -24,7 +24,7 @@ pthread_mutex_t mutex_memory;
 int nProd,nCons;
 int memory_index=0;
 
-long int sMemory[BUFFER_SIZE];
+unsigned int sMemory[BUFFER_SIZE];
 
 
 int isPrime(long value){
@@ -45,14 +45,15 @@ int isPrime(long value){
 }
 
 void* prod(){
-	long int value=1;
 	int i = 0;
+	unsigned int value;
 	while(i < MAX_CONSUME/nProd){
-		//value = rand()+1;
-		value+=1;
+		value = (unsigned int)((lrand48()+1)%MAX_VAL);
 		sem_wait(&empty);
 		pthread_mutex_lock(&mutex_memory);
-		if (memory_index < BUFFER_SIZE && sMemory[memory_index]==0){
+		if (memory_index < BUFFER_SIZE){ // && sMemory[memory_index]==0){
+			printf("value = %d\n", value);
+
 			sMemory[memory_index]=value;
 			memory_index += 1;
 			i+=1;
@@ -68,12 +69,12 @@ void* cons(){
 	while(i < MAX_CONSUME/nCons){		
 		sem_wait(&full);
 		pthread_mutex_lock(&mutex_memory);
-		if(memory_index >= 0 && sMemory[memory_index]!=0){
+		if(memory_index >= 0){// && sMemory[memory_index]!=0){
 			memory_index -= 1;
 			value=sMemory[memory_index];
 			sMemory[memory_index]=0;
 			i+=1;
-			printf("consumer %d: %ld\tisPrime: %d\n",i,value, isPrime(value));
+			printf("consumer %d: %ld\tisPrime: %d\tmem_index: %d\n",i,value, isPrime(value), memory_index);
 		}		
 		pthread_mutex_unlock(&mutex_memory);
 		sem_post(&empty);
