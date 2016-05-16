@@ -37,7 +37,7 @@ int main( int argc, const char* argv[] ){
 	sem_init(&full,0,0);
 	pthread_mutex_init(&mutex_memory,NULL);
 	
-	for(i = 0; i < N_TIMES ; i++){
+	//for(i = 0; i < N_TIMES ; i++){
 		// create producers
 		for(itt = 0;itt<nProd;itt++){
 			pthread_create(&p_Threads[itt],NULL,prod,NULL);
@@ -55,7 +55,7 @@ int main( int argc, const char* argv[] ){
 		for(itt = 0; itt < nCons ; itt++){
 			pthread_join(c_Threads[itt],NULL);
 		}
-	}
+	//}
 
 
 	sem_destroy(&full);

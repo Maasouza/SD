@@ -70,7 +70,7 @@ void* cons(){
 			value=sMemory[memory_index];
 			sMemory[memory_index]=0;
 			i+=1;
-			//printf("consumer %d: %ld\tisPrime: %d\tmem_index: %d\n",i,value, isPrime(value), memory_index);
+			printf("consumer %d: %ld\tisPrime: %d\tmem_index: %d\n",i,value, isPrime(value), memory_index);
 		}		
 		pthread_mutex_unlock(&mutex_memory);
 		sem_post(&empty);
