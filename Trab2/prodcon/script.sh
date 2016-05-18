@@ -1,4 +1,5 @@
 make 
+
 time ./pc 1 1
  
 time ./pc 2 2

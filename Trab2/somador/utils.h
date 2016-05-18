@@ -4,6 +4,7 @@
 #include <time.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <stdatomic.h>
 
 #ifndef QTT_ELEMENTS
 #define QTT_ELEMENTS 1000000000
@@ -11,12 +12,12 @@
 
 char elements[QTT_ELEMENTS];
 long accumulator = 0;
-char lock = 0;
+char lock = 0; 
 
 int test_and_set(char * lock){
-	char prev_lock = *lock;
-	*lock = 1;
-	return prev_lock;
+ 	char prev_lock = *lock;
+ 	*lock = 1;
+ 	return prev_lock;
 }
 
 void acquire()
