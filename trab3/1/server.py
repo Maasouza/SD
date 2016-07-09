@@ -9,9 +9,9 @@ def vec_pow(a,l):
 
 
 server = SimpleXMLRPCServer(("localhost",3000))
-print("127.0.0.1:3000")
 
 server.register_function(vec_avg,"avg")
 server.register_function(vec_pow,"pow")
 
+print("Ready to serve")
 server.serve_forever()
