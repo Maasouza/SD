@@ -2,25 +2,27 @@ import xmlrpclib
 import os
 import time
 
+EXEC_LIMIT = 1000
+
 coord = xmlrpclib.ServerProxy("http://localhost:3000")
 pid = os.getpid()
 
-while(not coord.acquire(pid)):
-	print "bug 1"
-	time.sleep(1)
+for i in range(1, EXEC_LIMIT) :
+	# subscribe to waiting queue
+	while(not coord.acquire(pid)):
+		time.sleep(1)
 
-while (not coord.check(pid)):
-	print "bug 2"
-	time.sleep(1)
+	# wait for access grant
+	while (not coord.check(pid)):
+		time.sleep(1)
 
-# abrir arquivo
-# escrever
-# fechar arquivo
+	# open file
+	file = open("output.txt", "a")
+	# write
+	file.write("INPUT FROM PROCCESS \t" + str(pid) + "\t ENTRY #" + str(i) + "\n")
+	# close file
+	file.close()
 
-print("crit in")
-
-while(not coord.release(pid)):
-	print "bug 3"
-	time.sleep(1)
-
-print("crit out")
+	while(not coord.release(pid)):
+		print "bug 3"
+		time.sleep(1)
