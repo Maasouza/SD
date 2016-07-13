@@ -3,7 +3,7 @@ import os
 import signal
 import time
 
-EXEC_LIMIT = 100
+EXEC_LIMIT = 101
 pid = os.getpid()
 myTurn = False
 
