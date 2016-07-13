@@ -4,7 +4,7 @@ then
 	rm -v "output.txt"
 fi
 echo Iniciando processos...
-for i in {1..2};
+for i in {1..128};
 do
 	python member.py &
 done
