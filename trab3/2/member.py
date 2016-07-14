@@ -1,11 +1,10 @@
 import xmlrpclib
-import os
-import signal
-import time
+import os, signal, time, random
 
 EXEC_LIMIT = 101
 pid = os.getpid()
 myTurn = False
+random.seed(pid)
 
 # signal handler
 def wake_up(signum, frame):
@@ -20,7 +19,9 @@ signal.signal(30, wake_up)
 coord = xmlrpclib.ServerProxy("http://localhost:3000")
 coord.check_in()
 
+################# MAIN LOOP #################
 for i in range(1, EXEC_LIMIT) :
+	time.sleep(random.random())
 	myTurn = False
 	# subscribe to waiting queue
 	while(not coord.acquire(pid)):
@@ -30,13 +31,12 @@ for i in range(1, EXEC_LIMIT) :
 	# wait for access grant
 	while (not myTurn):
 		signal.pause() # wait until signal is received
-
-	#print("PASSOU!")
-
+		
 	# open file
 	file = open("output.txt", "a")
 	# write
-	file.write("INPUT FROM PROCCESS \t" + str(pid) + "\t ENTRY NUMBER \t" + str(i) + "\t AT \t" + time.ctime() +"\n")
+	#file.write("INPUT FROM PROCCESS \t" + str(pid) + "\t ENTRY NUMBER \t" + str(i) + "\t AT \t" + time.ctime())
+	file.write(str(pid) + "::" + '%03d'%(i) + "::" + str(pid) + "::\n")
 	# close file
 	file.close()
 
